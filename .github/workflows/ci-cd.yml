@@ -18,12 +18,13 @@ jobs:
           node-version: '20'
 
       - name: 3. Instalar dependencias
-        run: npm run lololo
+        run: npm install
 
       - name: 4. Ejecutar validación de la app
         run: node src/index.js & sleep 2 && kill $!
 
   deploy-simulation:
+
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
