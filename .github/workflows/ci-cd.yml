@@ -27,16 +27,19 @@ jobs:
     needs: build-and-test
     runs-on: ubuntu-latest
     steps:
-      - name: 5. Configurar Docker Buildx
+      - name: 5. Checkout del código
+        uses: actions/checkout@v4
+
+      - name: 6. Configurar Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 6. Construir contenedor Docker (Simulación de Despliegue)
+      - name: 7. Construir contenedor Docker
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./Dockerfile
           push: false
           tags: node-mysql-app:latest
 
-      - name: 7. Confirmar Despliegue Exitoso
-        run: |
-          echo "¡Contenedor de Docker construido y desplegado localmente en el runner con éxito!"
+      - name: 8. Confirmar Despliegue Exitoso
+        run: echo "¡Despliegue simulado con éxito!"
