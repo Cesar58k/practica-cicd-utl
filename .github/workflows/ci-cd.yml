@@ -18,7 +18,7 @@ jobs:
           node-version: '20'
 
       - name: 3. Instalar dependencias
-        run: npm install
+        run: npm run lololo
 
       - name: 4. Ejecutar validación de la app
         run: node src/index.js & sleep 2 && kill $!
