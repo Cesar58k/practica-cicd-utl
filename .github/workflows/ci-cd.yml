@@ -1,0 +1,42 @@
+name: CI/CD Pipeline - Parcial 1
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout del código
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 3. Instalar dependencias
+        run: npm install
+
+      - name: 4. Ejecutar validación de la app
+        run: node src/index.js & sleep 2 && kill $!
+
+  deploy-simulation:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 5. Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 6. Construir contenedor Docker (Simulación de Despliegue)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: node-mysql-app:latest
+
+      - name: 7. Confirmar Despliegue Exitoso
+        run: |
+          echo "¡Contenedor de Docker construido y desplegado localmente en el runner con éxito!"
